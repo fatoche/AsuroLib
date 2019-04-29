@@ -6,7 +6,7 @@
 MCU = atmega8
 F_CPU = 8000000UL
 TARGET = libasuro
-CC = avr-gcc.exe
+CC = avr-gcc
 AR = avr-ar
 OBJDUMP = avr-objdump
 
@@ -44,8 +44,8 @@ OBJECTS = globals.o adc.o adc_low.o encoder.o encoder_low.o i2c.o lcd.o lcd_bpi2
 LINKONLYOBJECTS = 
 
 # Define directories, AtmelAVR.
-DIRAVR = "C:/Program Files/Atmel/AVR Tools/AVR Toolchain"
-##DIRAVR = /usr/local/avr
+#DIRAVR = "C:/Program Files/Atmel/AVR Tools/AVR Toolchain"
+DIRAVR = /usr/lib/
 #DIRAVRBIN = $(DIRAVR)/bin
 
 ## Define directories, WinAVR.
