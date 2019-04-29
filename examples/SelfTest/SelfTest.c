@@ -33,7 +33,7 @@
  *   any later version.                                                    *
  ***************************************************************************/
 #include "asuro.h"
-#include "test.h"
+#include "Test.h"
 
 void SelfTest (void)
 {
