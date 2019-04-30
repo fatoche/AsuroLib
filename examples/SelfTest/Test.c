@@ -134,62 +134,68 @@ void OdometrieTest(void)
 /* Motor Right rewind  to max. speed */
 /* Both Motors forward to max. speed */
 /* Both Motors rewind to max. speed  */
-void MotorTestRight (void)
+#define MOTORLEFT 0
+#define MOTORRIGHT 1
+
+void setSingleMotorDirection(unsigned side, unsigned direction)
+{
+  switch (side)
+  {
+    case MOTORLEFT:
+      MotorDir(direction, BREAK);
+      break;
+    case MOTORRIGHT:
+      MotorDir(BREAK, direction);
+      break;
+  }
+}
+
+void setMotorSpeed(unsigned side, unsigned speed)
+{
+  switch (side)
+  {
+    case MOTORLEFT:
+      MotorSpeed(speed, 0);
+      break;
+    case MOTORRIGHT:
+      MotorSpeed(0, speed);
+      break;
+  }
+}
+
+void speedUpAndSlowDown(unsigned side, unsigned direction)
 {
   unsigned int speed;
 
-  MotorDir(BREAK,FWD);
+  setSingleMotorDirection(side, direction);
   for (speed = 0; speed < 0xFF; speed ++)
   {
-    MotorSpeed(0,speed);
-	Msleep(10);
+    setMotorSpeed(side, speed);
+	  Msleep(10);
   }
   for (speed = 0xFF; speed > 0; speed --)
   {
-    MotorSpeed(0,speed);
-	Msleep(10);
+    setMotorSpeed(side, speed);
+	  Msleep(10);
   }
+}
 
-  MotorDir(BREAK,RWD);
-  for (speed = 0; speed < 0xFF; speed ++)
-  {
-    MotorSpeed(0,speed);
-	Msleep(10);
-  }
-  for (speed = 0xFF; speed > 0; speed --)
-  {
-    MotorSpeed(0,speed);
-	Msleep(10);
-  }
+void MotorTestRight (void)
+{
+  SerPrint("Testing right motor forward");
+  speedUpAndSlowDown(MOTORRIGHT, FWD);
+  SerPrint("Testing right motor backwards");
+  speedUpAndSlowDown(MOTORRIGHT, RWD);
+  SerPrint("Finished testing right motor");
 }
 
 void MotorTestLeft (void)
 {
-  unsigned int speed;
-
-  MotorDir(FWD,BREAK);
-  for (speed = 0; speed < 0xFF; speed ++)
-  {
-	Msleep(10);
-    MotorSpeed(speed,0);
-  }
-  for (speed = 0xFF; speed > 0; speed --)
-  {
-    MotorSpeed(speed,0);
-	Msleep(10);
-  }
-
-  MotorDir(RWD,BREAK);
-  for (speed = 0; speed < 0xFF; speed ++)
-  {
-    MotorSpeed(speed,0);
-	Msleep(10);
-  }
-  for (speed = 0xFF; speed > 0; speed --)
-  {
-    MotorSpeed(speed,0);
-	Msleep(10);
-  }
+  SerPrint("Testing left motor forward");
+  speedUpAndSlowDown(MOTORLEFT, FWD);
+  SerPrint("Testing left motor backwards");
+  speedUpAndSlowDown(MOTORLEFT, RWD);
+  SerPrint("Finished testing left motor");
 }
 
 void MotorTestBoth (void)
@@ -226,7 +232,8 @@ void MotorTest(void)
 {
   MotorTestLeft();
   MotorTestRight();
-  MotorTestBoth();
+  // MotorTestBoth();
+  SerPrint("Finished motor tests");
 }
 /* ---------------------------------------------- */
 
