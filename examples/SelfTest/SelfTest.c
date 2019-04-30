@@ -53,8 +53,9 @@ void SelfTest (void)
     StatusLED(OFF);
 
     SerPrint("Switch Test\n\r");
-    for (i = 0; i < 0xFE00; i++)
+    for (i = 0; i < 1500; i++) {
       SwitchTest();
+    }
     Init();
     StatusLED(OFF);
 
